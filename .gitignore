@@ -6,3 +6,8 @@ target
 /.project
 /.settings
 /RUNNING_PID
+
+create-local-mysql-db.sh
+create-mysql-db.sql
+
+env/
