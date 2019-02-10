@@ -20,8 +20,10 @@ libraryDependencies ++= Seq(
   "org.scalikejdbc"        %% "scalikejdbc-play-initializer" % "2.6.+",
   "org.skinny-framework"   %% "skinny-orm"                   % "2.3.7",
   "ch.qos.logback"         % "logback-classic"               % "1.2.3",
-  "com.github.t3hnar" %% "scala-bcrypt" % "3.1",
+  "com.github.t3hnar"      %% "scala-bcrypt"                 % "3.1",
   "com.adrianhurt"         %% "play-bootstrap"               % "1.2-P26-B3",
+  "jp.t2v"                 %% "play2-auth"                   % "0.16.0-SNAPSHOT",
+  "jp.t2v"                 %% "play2-auth-test"              % "0.16.0-SNAPSHOT" % Test,
   "mysql"                  % "mysql-connector-java"          % "6.0.6",
   "org.flywaydb"           %% "flyway-play"                  % "4.0.0"
 )
