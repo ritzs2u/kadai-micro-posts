@@ -2,7 +2,7 @@
 
 @(currentUserOpt: Option[User], postForm: Form[String], microPosts: PagedItems[MicroPost], favorites: PagedItems[MicroPost])(implicit messagesProvider: MessagesProvider, flash: Flash, request: RequestHeader)
 
-@main(Messages("Home"), currentUserOpt) {
+@main(Messages("Favorite"), currentUserOpt) {
 
 @if(currentUserOpt.isEmpty) {
     <div class="center jumbotron">
@@ -13,14 +13,6 @@
     </div>
   } else {
    <div class="row">
-      <aside class="col-md-4">
-        @b3.formCSRF(routes.PostController.post()) {
-          @b3.textarea(postForm("content"), '_label -> "Content", 'placeholder -> "Content")
-          @b3.submit('class -> "btn btn-primary btn-block") {
-            @Messages("Post")
-          }
-        }
-      </aside>
       <div class="col-xs-8">
         @if(microPosts.items.nonEmpty){
           @common.posts(currentUserOpt.get, microPosts, favorites)

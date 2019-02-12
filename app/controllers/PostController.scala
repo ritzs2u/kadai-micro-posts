@@ -16,6 +16,7 @@ import skinny.Pagination
 @Singleton
 class PostController @Inject()(val userService: UserService,
                                val microPostService: MicroPostService,
+                               val favoriteService: FavoriteService,
                                components: ControllerComponents)
   extends AbstractController(components)
   with I18nSupport
@@ -62,11 +63,21 @@ class PostController @Inject()(val userService: UserService,
   private def handleError(page: Int,
                           user: User,
                           formWithErrors: Form[String]
-                         )(implicit request: RequestHeader) = {
-    microPostService
-      .findAllByWithLimitOffset(Pagination(10, page), user.id.get)
-      .map { pagedItems =>
-        BadRequest(views.html.index(Some(user), formWithErrors, pagedItems))
+                          )(implicit request: RequestHeader) = {
+    favoriteService.findFavoritesByUserId(Pagination(10, page), user.id.get)
+      .map { favorites =>
+        microPostService
+          .findAllByWithLimitOffset(Pagination(10, page), user.id.get)
+          .map { pagedItems =>
+            BadRequest(views.html.index(Some(user), formWithErrors, pagedItems, favorites))
+          }
+          .recover {
+            case e: Exception =>
+              Logger.error("occurred error", e)
+              Redirect(routes.HomeController.index())
+                .flashing("failure" -> Messages("InternalError"))
+          }
+          .getOrElse(InternalServerError(Messages("InternalError")))
       }
       .recover {
         case e: Exception =>
